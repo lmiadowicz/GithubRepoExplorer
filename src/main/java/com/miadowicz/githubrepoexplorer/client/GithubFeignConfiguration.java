@@ -1,5 +1,6 @@
 package com.miadowicz.githubrepoexplorer.client;
 
+import com.miadowicz.githubrepoexplorer.exceptions.InvalidGitHubApiTokenException;
 import feign.Logger;
 import feign.Request;
 import feign.RequestInterceptor;
@@ -22,10 +23,14 @@ public class GithubFeignConfiguration {
     }
 
     @Bean
-    public RequestInterceptor requestInterceptor(/*@Value("${GITHUB_API_TOKEN}") String githubApiToken*/) {
+    public RequestInterceptor requestInterceptor(@Value("${gh.api.token}") String githubApiToken) {
+        if (githubApiToken == null || githubApiToken.isEmpty()) {
+            // Throw custom exception if the GitHub API token is null or empty
+            throw new InvalidGitHubApiTokenException("GitHub API token must not be null or empty");
+        }
+
         return template -> {
-          String githubApiToken = "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";
-            template.header("Authorization", "token %s".formatted(githubApiToken));
+            template.header("Authorization", String.format("token %s", githubApiToken));
         };
     }
     @Bean
