@@ -1,0 +1,34 @@
+[
+  {
+    "name": "dummy-repo-1",
+    "owner": "test-user",
+    "branches": [
+      {
+        "lastCommitSha": "dummy-commit-1",
+        "branchName": "main"
+      },
+      {
+        "lastCommitSha": "dummy-commit-2",
+        "branchName": "feature/branch-1"
+      }
+    ]
+  },
+  {
+    "name": "dummy-repo-2",
+    "owner": "test-user",
+    "branches": [
+      {
+        "lastCommitSha": "dummy-commit-3",
+        "branchName": "master"
+      },
+      {
+        "lastCommitSha": "dummy-commit-4",
+        "branchName": "bugfix/branch-2"
+      },
+      {
+        "lastCommitSha": "dummy-commit-5",
+        "branchName": "feature/branch-3"
+      }
+    ]
+  }
+]
