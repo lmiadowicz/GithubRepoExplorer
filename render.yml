@@ -1,0 +1,8 @@
+name: githubrepoexplorer
+dockerfile: Dockerfile
+env:
+  - key: SPRING_PROFILES_ACTIVE
+    value: production
+routes:
+  - path: /
+    port: 8080
