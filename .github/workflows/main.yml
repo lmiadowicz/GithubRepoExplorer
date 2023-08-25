@@ -1,0 +1,43 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+      - name: Run unit tests
+        run: mvn test
+      - name: Set up GitHub API token
+        env:
+          GH_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
+        run: echo "GH_API_TOKEN=${GH_API_TOKEN}" >> $GITHUB_ENV
+      - name: Run integration tests
+        run: mvn verify
+      - name: Build Docker image
+        run: docker build -t my-image .
+      - name: Push Docker image
+        uses: docker/login-action@v1
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push Docker image
+        run: docker push my-image
+      - name: Deploy to Render
+        uses: render-deploy/render-action@v1
+        with:
+          renderEmail: ${{ secrets.RENDER_EMAIL }}
+          renderPassword: ${{ secrets.RENDER_PASSWORD }}
+          renderAccountID: ${{ secrets.RENDER_ACCOUNT_ID }}
+          renderServiceID: ${{ secrets.RENDER_SERVICE_ID }}
+          dockerImage: my-image
