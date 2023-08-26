@@ -43,9 +43,10 @@ class GithubExplorerServiceTest {
         RepositoryDto repositoryResponseDto = new RepositoryDto("repo1", new OwnerDto(username), false, null);
         List<RepositoryDto> repositories = Collections.singletonList(repositoryResponseDto);
         BranchDto branchDto = new BranchDto("branch1", new CommitDto("sha1"));
+
         when(repositoryFetcher.fetchAllRepositories(username)).thenReturn(repositories);
-        when(repositoryFetcher.fetchBranchesAndCommits(verify(repositoryResponseDto), verify(username))).thenReturn(Collections.singletonList(branchDto));
-        when(repositoryMapper.mapToRepositoryFinalResponse(any(), verify(username), any())).thenReturn(new RepositoryWithDetailsDto("repo1", username, null));
+        when(repositoryFetcher.fetchBranchesAndCommits(eq(repositoryResponseDto), eq(username))).thenReturn(Collections.singletonList(branchDto));
+        when(repositoryMapper.mapToRepositoryFinalResponse(any(), eq(username), any())).thenReturn(new RepositoryWithDetailsDto("repo1", username, null));
 
         // Act
         List<RepositoryWithDetailsDto> result = githubExplorerService.getNonForkRepositoriesWithBranches(acceptHeader, username);
@@ -54,28 +55,31 @@ class GithubExplorerServiceTest {
         assertThat(result).hasSize(1);
         assertThat(result.get(0).repositoryName()).isEqualTo("repo1");
         assertThat(result.get(0).owner()).isEqualTo(username);
+
+        // Verify the interaction
+        verify(repositoryFetcher).fetchBranchesAndCommits(eq(repositoryResponseDto), eq(username));
     }
 
     @Test
     void should_throw_exception_for_invalid_accept_header() {
-        // Arrange
+
         String acceptHeader = "application/xml";
         String username = "test-user";
         doThrow(new UnsupportedAcceptHeaderException("Unsupported accept header", acceptHeader)).when(acceptHeaderValidator).validateAcceptHeader(acceptHeader);
 
-        // Act & Assert
+
         assertThatThrownBy(() -> githubExplorerService.getNonForkRepositoriesWithBranches(acceptHeader, username))
                 .isInstanceOf(UnsupportedAcceptHeaderException.class);
     }
 
     @Test
     void should_throw_exception_for_user_not_found() {
-        // Arrange
+
         String acceptHeader = "application/json";
         String username = "nonexistent-user";
         when(repositoryFetcher.fetchAllRepositories(username)).thenThrow(UserNotFoundException.class);
 
-        // Act & Assert
+
         assertThatThrownBy(() -> githubExplorerService.getNonForkRepositoriesWithBranches(acceptHeader, username))
                 .isInstanceOf(UserNotFoundException.class);
     }

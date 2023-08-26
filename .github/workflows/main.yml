@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Github Explorer CI/CD Pipeline - Render
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up GitHub API token
         env:
           GH_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
-        run: echo "GH_API_TOKEN=${GH_API_TOKEN}" >> $GITHUB_ENV
+        run: echo "GH_API_TOKEN=${GH_API_TOKEN}" >> $GH_API_TOKEN
       - name: Run integration tests
         run: mvn verify
       - name: Build Docker image

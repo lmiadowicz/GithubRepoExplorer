@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-//generate feign client which get repos and branches per username with pagination and authorization
+
 @FeignClient(name = "github", configuration = GithubFeignConfiguration.class)
 public interface GithubFeignClient {
 

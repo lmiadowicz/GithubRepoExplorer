@@ -22,7 +22,6 @@ public class GlobalExceptionHandler {
 
         MediaType acceptedMediaType = MediaType.parseMediaType(request.getHeader(HttpHeaders.ACCEPT));
 
-        // Construct the error message with the reason
         String errorResponseMessage = String.format("Unsupported accept header: %s", acceptedMediaType);
         ErrorResponse errorResponse = new ErrorResponse(statusCode, errorResponseMessage);
 
