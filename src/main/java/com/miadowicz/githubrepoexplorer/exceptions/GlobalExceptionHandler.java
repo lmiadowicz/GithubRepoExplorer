@@ -1,5 +1,6 @@
 package com.miadowicz.githubrepoexplorer.exceptions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
@@ -22,6 +24,7 @@ public class GlobalExceptionHandler {
 
         MediaType acceptedMediaType = MediaType.parseMediaType(request.getHeader(HttpHeaders.ACCEPT));
 
+        log.error("Unsupported accept header: {}", acceptedMediaType);
         String errorResponseMessage = String.format("Unsupported accept header: %s", acceptedMediaType);
         ErrorResponse errorResponse = new ErrorResponse(statusCode, errorResponseMessage);
 

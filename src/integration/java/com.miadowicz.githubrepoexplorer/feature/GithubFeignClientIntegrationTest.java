@@ -122,6 +122,4 @@ public class GithubFeignClientIntegrationTest {
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.message").value("User test-user not found."));
     }
-
-
 }

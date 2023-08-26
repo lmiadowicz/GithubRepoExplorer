@@ -8,7 +8,4 @@ public class UnsupportedAcceptHeaderException extends RuntimeException {
         this.acceptHeaderValue = acceptHeaderValue;
     }
 
-    public String getAcceptHeaderValue() {
-        return acceptHeaderValue;
-    }
 }

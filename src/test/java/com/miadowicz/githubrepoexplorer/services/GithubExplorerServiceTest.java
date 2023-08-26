@@ -36,7 +36,7 @@ class GithubExplorerServiceTest {
     private GithubExplorerService githubExplorerService;
 
     @Test
-    void should_fetch_non_fork_repositories_with_branches_success() {
+    void should_fetch_non_fork_repositories_with_branches() {
         // Arrange
         String acceptHeader = "application/json";
         String username = "test-user";

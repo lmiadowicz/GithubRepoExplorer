@@ -21,12 +21,18 @@ public class GithubExplorerService {
     }
 
     public List<RepositoryWithDetailsDto> getNonForkRepositoriesWithBranches(String acceptHeader, String username) {
+        log.info("Validating Accept header for username: {}", username);
         acceptHeaderValidator.validateAcceptHeader(acceptHeader);
+        log.info("Fetching all repositories for username: {}", username);
         List<RepositoryDto> allRepositories = repositoryFetcher.fetchAllRepositories(username);
-
+        log.info("Mapping non-fork repositories with branches for username: {}", username);
         return allRepositories.stream()
-                .filter(repository -> !repository.isFork())
+                .filter(repository -> {
+                    log.debug("Checking if repository {} is a fork", repository.name());
+                    return !repository.isFork();
+                })
                 .map(repository -> {
+                    log.debug("Fetching branches and commits for repository: {}", repository.name());
                     List<BranchDto> branches = repositoryFetcher.fetchBranchesAndCommits(repository, username);
                     return repositoryMapper.mapToRepositoryFinalResponse(repository, username, branches);
                 })

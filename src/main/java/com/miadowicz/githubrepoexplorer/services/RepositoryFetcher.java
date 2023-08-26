@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Component
 @Slf4j
+@Component
 public class RepositoryFetcher {
+
+    private static final int PAGE_SIZE = 100;
 
     private final GithubFeignClient githubFeignClient;
 
@@ -24,39 +26,51 @@ public class RepositoryFetcher {
     }
 
     public List<RepositoryDto> fetchAllRepositories(String username) {
-        log.debug("Fetching repositories for user: {}", username);
+        log.debug("Starting fetching repositories for user: {}", username);
         List<RepositoryDto> allRepositories = new ArrayList<>();
         int page = 1;
         List<RepositoryDto> repositoriesPage;
 
         do {
-            try {
-                repositoriesPage = githubFeignClient.getRepositories(username, page, 100);
-                allRepositories.addAll(repositoriesPage);
-                page++;
-            } catch (FeignException.NotFound e) {
-                throw new UserNotFoundException(String.format("User %s not found.", username));
-            } catch (Exception e) {
-                log.error("An unexpected error occurred while fetching repositories for user: {}. Exception details: {}"
-                        , username, e.getMessage(), e);
-                throw new InternalServerErrorException("An unexpected error occurred. Please try again later.");
-            }
+            repositoriesPage = fetchPage(username, page);
+            allRepositories.addAll(repositoriesPage);
+            log.debug("Fetched {} repositories from page {}", repositoriesPage.size(), page);
+            page++;
         } while (!repositoriesPage.isEmpty());
 
-        log.debug("Fetched {} repositories for user: {}", allRepositories.size(), username);
+        log.info("Successfully fetched {} repositories for user: {}", allRepositories.size(), username);
         return allRepositories;
+    }
+
+    private List<RepositoryDto> fetchPage(String username, int page) {
+        try {
+            return githubFeignClient.getRepositories(username, page, PAGE_SIZE);
+        } catch (FeignException.NotFound e) {
+            throw new UserNotFoundException(String.format("User %s not found.", username));
+        } catch (Exception e) {
+            handleException(username, e);
+            return Collections.emptyList();
+        }
+    }
+
+    private void handleException(String username, Exception e) {
+        log.error("An unexpected error occurred while fetching repositories for user: {}. Exception details: {}",
+                username, e.getMessage(), e);
+        throw new InternalServerErrorException("An unexpected error occurred. Please try again later.");
     }
 
     public List<BranchDto> fetchBranchesAndCommits(RepositoryDto repository, String username) {
         log.debug("Fetching branches for repository: {}", repository.name());
         try {
-            return githubFeignClient.getBranches(username, repository.name());
+            List<BranchDto> branches = githubFeignClient.getBranches(username, repository.name());
+            log.debug("Successfully fetched {} branches for repository {}", branches.size(), repository.name());
+            return branches;
         } catch (FeignException.NotFound e) {
             log.warn("No branches found for repository: {}", repository.name());
-            return new ArrayList<>();  // Return an empty list when no branches are found
+            return new ArrayList<>();
         } catch (Exception e) {
-            log.error("An unexpected error occurred while fetching repositories for user: {}", username);
-            throw new InternalServerErrorException("An unexpected error occurred. Please try again later.");
+            handleException(username, e);
+            return Collections.emptyList();
         }
     }
 }
