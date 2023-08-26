@@ -32,7 +32,6 @@ jobs:
     steps:
       - name: Build Docker image
         run: |
-          pwd
           find . -name Dockerfile
           docker build -t my-image .
 #      - name: Push Docker image
