@@ -47,7 +47,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Push Docker image
-        run: docker push lmiadowicz/githubrepoexplorer/githurepoexplorer:latest
+        run: | 
+          docker push githurepoexplorer
+          docker tag githurepoexplorer ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
