@@ -97,14 +97,43 @@ This project leverages GitHub Actions for continuous integration and deployment 
 - Deployment only proceeds if all test cases pass and the Docker image is successfully pushed to the registry.
 
 #### Environment Variables
-- Various secrets and environment variables are used, these should be set in your GitHub project settings under "Secrets". They include `DOCKER_USERNAME`, `DOCKER_TOKEN`, and `RENDER_API_KEY`.
+- Various secrets and environment variables are used, these should be set in your GitHub project settings under "Secrets". They include `DOCKER_USERNAME`, `DOCKER_TOKEN`, and `RENDER_API_KEY`, `RENDER_SERVICE_ID`, `GH_API_TOKEN`.
 
 #### Failure Handling
 - If any step fails, the entire workflow is halted, and no deployment occurs.
 
 
 ## Test Endpoints on Production
-- The API is deployed at [https://githubrepoexplorer.onrender.com](https://githubrepoexplorer.onrender.com).
-- Example success endpoint request for `lmiadowicz` repos: `https://githubrepoexplorer.onrender.com/repos/lmiadowicz`
-- Example for invalid headers: `https://githubrepoexplorer.onrender.com/repos/lmiadowicz` (with header `Accept: application/xml`)
-- Example for user not found: `https://githubrepoexplorer.onrender.com/repos/nonexistent-user`
+
+The API is deployed at `https://githubrepoexplorer.onrender.com`.
+
+### Example Success Endpoint Request for lmiadowicz Repos
+
+To test a successful request for user `lmiadowicz`'s repositories, you can run the following cURL command:
+
+    ```bash
+    curl -X GET "https://githubrepoexplorer.onrender.com/repos/lmiadowicz" \
+         -H "Accept: application/json"
+    ```
+
+### Example for Invalid Headers
+
+To test a request with invalid headers, use the following cURL command:
+
+    ```bash
+    curl -X GET "https://githubrepoexplorer.onrender.com/repos/lmiadowicz" \
+         -H "Accept: application/xml"
+    ```
+
+You should receive a 406 response code along with a JSON message.
+
+### Example for User Not Found
+
+To test a request where the user does not exist, use the following cURL command:
+
+    ```bash
+    curl -X GET "https://githubrepoexplorer.onrender.com/repos/nonexistent-user" \
+         -H "Accept: application/json"
+    ```
+
+You should receive a 404 response code along with a JSON message.
