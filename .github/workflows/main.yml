@@ -21,7 +21,7 @@ jobs:
       - name: Set up GitHub API token
         env:
           GH_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
-        run: echo "GH_API_TOKEN=${GH_API_TOKEN}" >> $GH_API_TOKEN
+        run: echo "GH_API_TOKEN=${GH_API_TOKEN}" >> $GITHUB_API_TOKEN
       - name: Run integration tests
         run: mvn verify
 
@@ -45,6 +45,5 @@ jobs:
         with:
           renderEmail: ${{ secrets.RENDER_EMAIL }}
           renderPassword: ${{ secrets.RENDER_PASSWORD }}
-          renderAccountID: ${{ secrets.RENDER_ACCOUNT_ID }}
           renderServiceID: ${{ secrets.RENDER_SERVICE_ID }}
           dockerImage: my-image
