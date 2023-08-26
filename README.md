@@ -1,5 +1,16 @@
 # Github Repo Explorer API
 
+![GitHub license](https://img.shields.io/github/license/lmiadowicz/GithubRepoExplorer)
+
+![Github Explorer CI/CD Pipeline - Render - Test](https://github.com/lmiadowicz/GithubRepoExplorer/actions/workflows/main.yml/badge.svg)
+
+![Render.com Deployment](https://img.shields.io/badge/Render.com-Deployed-green)
+
+![GitHub stars](https://img.shields.io/github/stars/lmiadowicz/GithubRepoExplorer)
+![GitHub forks](https://img.shields.io/github/forks/lmiadowicz/GithubRepoExplorer)
+![GitHub issues](https://img.shields.io/github/issues/lmiadowicz/GithubRepoExplorer)
+
+
 ## Overview
 This project exposes an API to list all GitHub repositories of a given user which are not forks. It returns details such as the repository name, the owner's login, and details about each branch, including its name and the SHA of the last commit.
 
