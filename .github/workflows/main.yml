@@ -48,7 +48,6 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Push Docker image
         run: | 
-          docker push githurepoexplorer
           docker tag githurepoexplorer ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
       - name: Deploy to Render
