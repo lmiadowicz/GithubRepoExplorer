@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,6 +23,12 @@ jobs:
         run: echo "GH_API_TOKEN=${GH_API_TOKEN}" >> $GH_API_TOKEN
       - name: Run integration tests
         run: mvn verify
+
+  deploy:
+    name: Deploy to Render
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
       - name: Build Docker image
         run: docker build -t my-image .
       - name: Push Docker image
