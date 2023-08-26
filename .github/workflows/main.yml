@@ -41,9 +41,7 @@ jobs:
       - name: Push Docker image
         run: docker push my-image
       - name: Deploy to Render
-        uses: render-deploy/render-action@v1
+        uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          renderEmail: ${{ secrets.RENDER_EMAIL }}
-          renderPassword: ${{ secrets.RENDER_PASSWORD }}
-          renderServiceID: ${{ secrets.RENDER_SERVICE_ID }}
-          dockerImage: my-image
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
