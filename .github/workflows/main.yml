@@ -50,11 +50,13 @@ jobs:
         run: | 
           docker tag githurepoexplorer ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
-      - name: Deploy to Render
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
-
-
+#      - name: Deploy to Render
+#        uses: johnbeynon/render-deploy-action@v0.0.8
+#        with:
+#          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+#          api-key: ${{ secrets.RENDER_API_KEY }}
+      - name: Trigger Render Deploy Hook
+        run: |
+            curl -X POST https://api.render.com/deploy/srv-cjkuuegcfp5c73dif120?key=4_Ho9CfQXBM \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
 
