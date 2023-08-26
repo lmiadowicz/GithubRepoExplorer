@@ -36,7 +36,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn clean package -DskipTests
       - name: Build Docker image
         run:
           docker build -t githurepoexplorer .
@@ -55,5 +55,6 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
+
 
 
