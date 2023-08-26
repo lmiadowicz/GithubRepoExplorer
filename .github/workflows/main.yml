@@ -52,6 +52,6 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/githurepoexplorer:latest
       - name: Trigger Render Deploy Hook
         run: |
-            curl -X POST https://api.render.com/deploy/srv-cjkuuegcfp5c73dif120?key=4_Ho9CfQXBM \
+            curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }} \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
 

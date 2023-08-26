@@ -66,6 +66,7 @@ Given a header "Accept: application/xml", the API will return a 406 response for
 - `RENDER_API_KEY`: Your Render API key
 - `RENDER_SERVICE_ID`: Your Render service ID
 - `GH_API_TOKEN`: GitHub API Token
+- `RENDER_DEPLOY_HOOK_URL`: Render deploy hook URL to trigger deployment of image to Render.com from Docker Hub
 
 ### Deployment Service
 I use Render.com for deployment. Configuration details can be found [here](https://render.com/docs/deploy-an-image). Remember to add the environment variables in the Render Dashboard for deployed container.
@@ -93,11 +94,12 @@ This project leverages GitHub Actions for continuous integration and deployment 
 - Pushes the Docker image to Docker Container Registry.
 
 #### Deploy to Render.com
-- Uses a custom script to deploy the pushed Docker image to Render.com.
+- Uses a stage to deploy the pushed Docker image to Render.com.
+- A webhook to Render.com is triggered at this stage to initiate the deployment process.
 - Deployment only proceeds if all test cases pass and the Docker image is successfully pushed to the registry.
 
 #### Environment Variables
-- Various secrets and environment variables are used, these should be set in your GitHub project settings under "Secrets". They include `DOCKER_USERNAME`, `DOCKER_TOKEN`, and `RENDER_API_KEY`, `RENDER_SERVICE_ID`, `GH_API_TOKEN`.
+- Various secrets and environment variables are used, these should be set in your GitHub project settings under "Secrets". They include `DOCKER_USERNAME`, `DOCKER_TOKEN`, and `RENDER_API_KEY`, `RENDER_SERVICE_ID`, `GH_API_TOKEN`, `RENDER_DEPLOY_HOOK_URL`.
 
 #### Failure Handling
 - If any step fails, the entire workflow is halted, and no deployment occurs.
