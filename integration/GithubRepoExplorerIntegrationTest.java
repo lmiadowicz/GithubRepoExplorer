@@ -25,7 +25,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -39,9 +39,6 @@ public class GithubRepoExplorerIntegrationTest {
     private WebTestClient webTestClient;
 
     private static final String WIRE_MOCK_HOST = "http://localhost";
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @RegisterExtension
     public static WireMockExtension wireMockServer = WireMockExtension.newInstance()
@@ -96,7 +93,7 @@ public class GithubRepoExplorerIntegrationTest {
                 });
     }
     @Test
-    void should_test_empty_repositories() throws Exception {
+    void should_test_empty_repositories() {
         wireMockServer.stubFor(WireMock.get(urlPathMatching("/users/dawidkorybalski/repos"))
                 .willReturn(aResponse()
                         .withStatus(200)

@@ -1,12 +1,8 @@
 package com.miadowicz.githubrepoexplorer.client;
 
 import com.miadowicz.githubrepoexplorer.exceptions.InvalidGitHubApiTokenException;
-import feign.Logger;
-import feign.Request;
 import feign.RequestInterceptor;
-import feign.Response;
 import feign.codec.Decoder;
-import feign.codec.ErrorDecoder;
 import feign.jackson.JacksonDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

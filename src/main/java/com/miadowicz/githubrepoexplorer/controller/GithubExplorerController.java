@@ -25,7 +25,7 @@ public class GithubExplorerController {
             @RequestHeader(name = "Accept", required = false) String acceptHeader) throws UnsupportedAcceptHeaderException {
         log.info("Received request for user: {}, Accept header: {}", username, acceptHeader);
         if (acceptHeader != null && !acceptHeader.equals("application/json")) {
-            log.warn("Unsupported Accept header: {}", acceptHeader);
+            log.error("Unsupported Accept header: {}", acceptHeader);
             throw new UnsupportedAcceptHeaderException("Accept header must be application/json");
         }
         log.info("Returning repositories for user with last commit & sha: {}", username);
