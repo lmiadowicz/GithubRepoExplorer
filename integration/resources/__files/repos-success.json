@@ -1,0 +1,25 @@
+[
+  {
+    "repositoryName": "dawidkorybalski",
+    "owner": "dawidkorybalski",
+    "branches": []
+  },
+  {
+    "repositoryName": "python-sample-vscode-flask-tutorial",
+    "owner": "dawidkorybalski",
+    "branches": [
+      {
+        "branchName": "master",
+        "lastCommitSha": "c49c02d17ce0631f4fc1e1d87f4de69deca3ec26"
+      },
+      {
+        "branchName": "startup-file",
+        "lastCommitSha": "2b0134a2332a557f8a5115fcd12485deada62cae"
+      },
+      {
+        "branchName": "tutorial",
+        "lastCommitSha": "171e35753b2cc1c7cf78c0f9904dc9e111449d9a"
+      }
+    ]
+  }
+]

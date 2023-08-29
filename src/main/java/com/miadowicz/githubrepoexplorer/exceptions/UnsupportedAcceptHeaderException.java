@@ -1,11 +1,9 @@
 package com.miadowicz.githubrepoexplorer.exceptions;
 
-public class UnsupportedAcceptHeaderException extends RuntimeException {
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 
-    private final String acceptHeaderValue;
-
-    public UnsupportedAcceptHeaderException(String acceptHeaderValue, String acceptHeader) {
-        this.acceptHeaderValue = acceptHeaderValue;
+public class UnsupportedAcceptHeaderException extends HttpMediaTypeNotAcceptableException {
+    public UnsupportedAcceptHeaderException(String message) {
+        super(message);
     }
-
 }

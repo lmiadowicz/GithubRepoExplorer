@@ -1,4 +1,4 @@
-package com.miadowicz.githubrepoexplorer.client.dto;
+package com.miadowicz.githubrepoexplorer.dto;
 
 import java.util.List;
 
