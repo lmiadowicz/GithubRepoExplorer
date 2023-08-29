@@ -47,8 +47,7 @@ Given a header "Accept: application/xml", the API will return a 406 response for
 - Feign Http Client
 - Lombok
 - JUnit 5
-- Wiremock
-- Mockito
+- Wiremock & WebTestClient for integration tests
 - Maven
 - Docker
 - GitHub Actions
